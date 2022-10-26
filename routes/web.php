@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\HtmlOutput;
+use App\Http\Controllers\SalesReporter;
+use App\Repositories\SalesRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $obj = new SalesReporter(new SalesRepository());
+    $startDate = Carbon::now()->subDays(10);
+    $endDate = Carbon::now();
+    return $obj->between($startDate, $endDate, new HtmlOutput());
 });
